@@ -14,3 +14,28 @@ h1 {
   color: rgb(157, 73, 236);
   margin: 100px  600px;
 }
+
+.footer {
+  padding: 24px;
+  border: 2px solid  rgb(255, 153, 0);
+  text-align: center;
+  border-radius: 10px;
+  background-color: #2a6f97;
+  display: flex;
+  justify-content: center;
+}
+
+.bio {
+  color: #ffc43d;
+  box-shadow: 0 2px 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.bio-part {
+  color: #ffc43d;
+  box-shadow: 0 2px 14px;
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 20px;
+}

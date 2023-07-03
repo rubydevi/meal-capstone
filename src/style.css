@@ -14,3 +14,24 @@ h1 {
   color: rgb(157, 73, 236);
   margin: 100px  600px;
 }
+
+header {
+  padding: 2% 5%;
+  border-bottom: 1px solid grey;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+#category {
+  text-decoration: underline;
+}

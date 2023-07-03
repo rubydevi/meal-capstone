@@ -35,3 +35,69 @@ a {
 #category {
   text-decoration: underline;
 }
+
+/* CSS code for styling the card */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  max-height: 60%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card h3 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.card p {
+  margin: 8px 0;
+}
+
+.card button {
+  display: block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #45a049;
+}
+
+.fa-regular {
+  color: #000;
+}
+
+.fa-solid {
+  color: #f00;
+}
+
+.d-none {
+  display: none;
+}

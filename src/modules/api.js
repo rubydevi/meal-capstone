@@ -2,8 +2,7 @@ const baseURL = 'https://www.themealdb.com/api/json/v1/1/';
 const involvementAPIBaseURL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/';
 
 // Create a new app and retrieve the appID
-
-export async function createApp() {
+const createApp = async () => {
   const storedAppId = localStorage.getItem('appId');
   if (storedAppId && storedAppId === '1FNl9krFuHr2YmoEXWQu') {
     return storedAppId;
@@ -11,9 +10,9 @@ export async function createApp() {
 
   localStorage.setItem('appId', '1FNl9krFuHr2YmoEXWQu');
   return '1FNl9krFuHr2YmoEXWQu';
-}
+};
 
-export async function getLikesCount(appId, itemId) {
+const getLikesCount = async (appId, itemId) => {
   try {
     const response = await fetch(`${involvementAPIBaseURL}apps/1FNl9krFuHr2YmoEXWQu/likes`);
     const data = await response.json();
@@ -30,22 +29,24 @@ export async function getLikesCount(appId, itemId) {
   } catch (error) {
     return 0;
   }
-}
-
-// Export the base URL for the meal API
-export { baseURL };
+};
 
 // List of meal
-export async function getRegionWiseMeal() {
+const getRegionWiseMeal = async () => {
   const response = await fetch(`${baseURL}filter.php?a=Indian`);
   const data = await response.json();
   return data.meals;
-}
+};
 
 // Individual meal
 // Please improve this if it doesn't work @Sadaf
-export async function getOneMeal(mealID) {
+const getOneMeal = async (mealID) => {
   const response = await fetch(`${baseURL}lookup.php?i=${mealID}`);
   const data = await response.json();
   return data.meals;
-}
+};
+
+// Export the base URL for the meal API
+export {
+  baseURL, createApp, getLikesCount, getRegionWiseMeal, getOneMeal,
+};

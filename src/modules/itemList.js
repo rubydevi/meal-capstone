@@ -43,4 +43,5 @@ const populateItemList = async () => {
     itemList.appendChild(card);
   });
 };
+
 export default populateItemList;

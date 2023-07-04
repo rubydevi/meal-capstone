@@ -1,6 +1,8 @@
-import { getRegionWiseMeal } from './api.js';
+import { getRegionWiseMeal, getLikesCount, createApp } from './api.js';
 
-export default async function populateItemList() {
+const populateItemList = async () => {
+  // Retrieve the app ID
+  const appID = await createApp();
   const meals = await getRegionWiseMeal();
   const itemList = document.getElementById('item-list');
 
@@ -8,7 +10,7 @@ export default async function populateItemList() {
   itemList.innerHTML = '';
 
   // Iterate through the meals and create card elements for each
-  meals.forEach((meal) => {
+  meals.forEach(async (meal) => {
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -29,7 +31,9 @@ export default async function populateItemList() {
     cardHeader.appendChild(likes);
 
     const likeCount = document.createElement('label');
-    likeCount.innerHTML = '6 likes';
+    const itemId = meal.idMeal;
+    const count = await getLikesCount(appID, itemId);
+    likeCount.innerHTML = `${count} likes`;
     card.appendChild(likeCount);
 
     const commentButton = document.createElement('button');
@@ -38,7 +42,6 @@ export default async function populateItemList() {
 
     itemList.appendChild(card);
   });
-}
+};
 
-// Populate the item list when the page loads
-window.addEventListener('load', populateItemList);
+export default populateItemList;

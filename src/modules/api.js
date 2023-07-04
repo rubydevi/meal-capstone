@@ -13,6 +13,26 @@ export async function createApp() {
   return '1FNl9krFuHr2YmoEXWQu';
 }
 
+export async function getLikesCount(appId, itemId) {
+  try {
+    const response = await fetch(`${involvementAPIBaseURL}apps/1FNl9krFuHr2YmoEXWQu/likes`);
+    const data = await response.json();
+    let likes = 0;
+
+    // Check if the response is an array and find the likes count for the item
+    if (Array.isArray(data)) {
+      const item = data.find((item) => item.item_id === itemId);
+      if (item) {
+        likes = item.likes;
+      }
+    }
+    return likes;
+  } catch (error) {
+    // throw error;
+    return 0;
+  }
+}
+
 // Export the base URL for the meal API
 export { baseURL };
 

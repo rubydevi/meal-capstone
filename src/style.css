@@ -138,3 +138,49 @@ a {
   border-radius: 8px;
   margin-right: 20px;
 }
+
+/* add style for popup */
+
+.meal {
+  background-color: rgb(226, 211, 196);
+  justify-content: center;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+.recipe-close-btn {
+  position: absolute;
+  font-size: 1.4rem;
+  background-color: #fff;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  opacity: 0.9;
+}
+
+.comment-part {
+  padding-top: 20px;
+  color: #f90;
+}
+
+.name {
+  border-radius: 12px;
+  padding: 8px;
+  width: 300px;
+}
+
+#textArea {
+ border-radius: 12px;
+  padding: 8px; 
+}
+
+#submit {
+  border-radius: 12px;
+  padding: 8px;
+  margin: 12px;
+  width: 300px;
+  color: #f90;
+  font-size: 20px;
+}

@@ -38,6 +38,7 @@ const populateItemList = async () => {
 
     const commentButton = document.createElement('button');
     commentButton.textContent = 'Comments';
+    commentButton.id = 'Comments';
     card.appendChild(commentButton);
 
     itemList.appendChild(card);

@@ -28,7 +28,6 @@ export async function getLikesCount(appId, itemId) {
     }
     return likes;
   } catch (error) {
-    // throw error;
     return 0;
   }
 }

@@ -31,6 +31,7 @@ const populateItemList = async () => {
     cardHeader.appendChild(likes);
 
     const likeCount = document.createElement('label');
+    likeCount.classList.add('card-label');
     const itemId = meal.idMeal;
     const count = await getLikesCount(appID, itemId);
     likeCount.innerHTML = `${count} likes`;

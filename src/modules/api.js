@@ -14,7 +14,7 @@ const createApp = async () => {
 
 const getLikesCount = async (appId, itemId) => {
   try {
-    const response = await fetch(`${involvementAPIBaseURL}apps/1FNl9krFuHr2YmoEXWQu/likes`);
+    const response = await fetch(`${involvementAPIBaseURL}apps/${appId}/likes`);
     const data = await response.json();
     let likes = 0;
 

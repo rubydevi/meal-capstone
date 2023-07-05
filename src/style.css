@@ -58,12 +58,17 @@ a {
 
 .card {
   display: flex;
-  border: 1px solid #ccc;
   border-radius: 4px;
   padding: 16px;
   margin-bottom: 16px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   flex-direction: column;
+}
+
+.card:hover {
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }
 
 .card img {
@@ -107,6 +112,22 @@ a {
 
 .card button:hover {
   background-color: #e98c00;
+}
+
+.loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  border-top-color: #333;
+  animation: spin 0.6s infinite linear;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .fa-regular {

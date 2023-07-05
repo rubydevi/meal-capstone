@@ -2,6 +2,13 @@ import {
   getRegionWiseMeal, getLikesCount, createApp, addLike,
 } from './api.js';
 import addComment from './popup.js';
+import { showLoader, hideLoader } from './loader.js';
+import countItems from './counter.js';
+
+const updateHomepageCounters = () => {
+  const itemsCounter = document.getElementById('items-counter');
+  itemsCounter.textContent = `( ${countItems()} )`;
+};
 
 const populateItemList = async () => {
   // Retrieve the app ID
@@ -30,22 +37,30 @@ const populateItemList = async () => {
     cardHeader.appendChild(name);
 
     const likes = document.createElement('span');
-    likes.innerHTML = '<i class="fa-regular fa-heart"></i>'; // icon for liked: <i class="fa-solid fa-heart"></i>
-    likes.addEventListener('click', async () => {
-      await addLike(appID, meal.idMeal);
-      const likeCount = card.querySelector('.card-label'); // Find the like count label within the card
-      if (likeCount) {
-        const count = await getLikesCount(appID, meal.idMeal);
-        likeCount.innerHTML = `${count} likes`; // Update the like count label
-      }
-    });
+    likes.innerHTML = '<i class="fa-regular fa-heart"></i>';
     cardHeader.appendChild(likes);
 
+    const likeCountDiv = document.createElement('div');
+    likeCountDiv.classList.add('card-label');
+
     const likeCount = document.createElement('label');
-    likeCount.classList.add('card-label');
+    likeCount.classList.add('label');
     const count = await getLikesCount(appID, meal.idMeal);
     likeCount.innerHTML = `${count} likes`;
-    card.appendChild(likeCount);
+    likeCountDiv.appendChild(likeCount);
+    card.appendChild(likeCountDiv);
+
+    // Add like function
+    likes.addEventListener('click', async () => {
+      showLoader(likeCountDiv, likeCount); // Show the loader
+      await addLike(appID, meal.idMeal);
+      const countLabel = card.querySelector('.label'); // Find the like count label within the card
+      if (countLabel) {
+        const count = await getLikesCount(appID, meal.idMeal);
+        hideLoader(likeCountDiv, countLabel); // Hide the loader
+        countLabel.innerHTML = `${count} likes`; // Update the like count label
+      }
+    });
 
     const commentButton = document.createElement('button');
     commentButton.textContent = 'Comments';
@@ -59,6 +74,9 @@ const populateItemList = async () => {
     });
 
     itemList.appendChild(card);
+
+    // Update the homepage counters after each meal card is created
+    updateHomepageCounters();
   });
 };
 

@@ -1,5 +1,5 @@
 import { getRegionWiseMeal, getLikesCount, createApp } from './api.js';
-import { addComment } from './popup.js';
+import addComment from './popup.js';
 
 const populateItemList = async () => {
   // Retrieve the app ID

@@ -43,4 +43,4 @@ const addComment = async (id, data) => {
   });
 };
 
-export { addComment };
+export default addComment;

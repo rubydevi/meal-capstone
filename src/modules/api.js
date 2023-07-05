@@ -27,7 +27,7 @@ const getLikesCount = async (appId, itemId) => {
     }
     return likes;
   } catch (error) {
-    return 0;
+    return `Error adding like:${error}`;
   }
 };
 
@@ -46,7 +46,22 @@ const getOneMeal = async (mealID) => {
   return data.meals;
 };
 
+const addLike = async (appId, itemId) => {
+  try {
+    await fetch(`${involvementAPIBaseURL}apps/${appId}/likes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ item_id: itemId }),
+    });
+    return undefined;
+  } catch (error) {
+    return `Error adding like:${error}`;
+  }
+};
+
 // Export the base URL for the meal API
 export {
-  baseURL, createApp, getLikesCount, getRegionWiseMeal, getOneMeal,
+  baseURL, createApp, getLikesCount, getRegionWiseMeal, getOneMeal, addLike,
 };

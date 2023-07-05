@@ -288,3 +288,29 @@ i:active {
   row-gap: 20px;
   width: 100%;
 }
+
+@media only screen and (max-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card h3 {
+    font-size: 2.6vw;
+  }
+
+  .label {
+    font-size: 2.1vw;
+  }
+
+  i {
+    font-size: 2.6vw;
+  }
+
+  i:hover {
+    font-size: 2.8vw;
+  }
+
+  i:active {
+    font-size: 2.3vw;
+  }
+}

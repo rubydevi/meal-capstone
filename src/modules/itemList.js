@@ -1,6 +1,7 @@
 import {
   getRegionWiseMeal, getLikesCount, createApp, addLike,
 } from './api.js';
+import addComment from './popup.js';
 
 const populateItemList = async () => {
   // Retrieve the app ID
@@ -48,7 +49,14 @@ const populateItemList = async () => {
 
     const commentButton = document.createElement('button');
     commentButton.textContent = 'Comments';
+    commentButton.id = 'Comments';
+    commentButton.setAttribute('data-btn', `${meal.idMeal}`);
     card.appendChild(commentButton);
+
+    commentButton.addEventListener('click', (e) => {
+      const id = e.target.dataset.btn;
+      addComment(id, meals);
+    });
 
     itemList.appendChild(card);
   });

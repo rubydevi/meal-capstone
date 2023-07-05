@@ -159,3 +159,101 @@ i:active {
   border-radius: 8px;
   margin-right: 20px;
 }
+
+/* add style for popup */
+
+.meal {
+  background-color: #161b4aa7;
+  overflow-y: scroll;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  padding-left: 20px;
+  position: fixed;
+  display: none;
+}
+
+.meal-list {
+  background-color: rgb(236, 212, 177);
+  width: 760px;
+  height: 600px;
+  border-radius: 8px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.close-btn {
+  text-align: right;
+  margin: 12px;
+}
+
+.recipe-close-btn {
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  opacity: 0.9;
+}
+
+.meal-list-comment {
+  display: flex;
+  gap: 60px;
+}
+
+.meal-name {
+  padding: 60px;
+  color: #f90;
+  border: 2px solid  rgb(255, 153, 0);
+  border-radius: 10px;
+}
+
+.comment-meal h3 {
+  color: #f90;
+  padding: 20px;
+}
+
+#comments-list {
+  color: rgb(12, 12, 11);
+  font-size: 20px;
+  background-color: #c6ae4cfa;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+
+.meal-image {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.comment-part {
+  padding-top: 20px;
+  color: #f90;
+}
+
+.name {
+  border-radius: 12px;
+  padding: 8px;
+  width: 300px;
+}
+
+#textArea {
+  border-radius: 12px;
+  padding: 8px;
+}
+
+#submit {
+  border-radius: 12px;
+  padding: 8px;
+  margin: 12px;
+  width: 300px;
+  color: #f90;
+  font-size: 20px;
+}

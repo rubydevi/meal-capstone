@@ -39,7 +39,6 @@ const getRegionWiseMeal = async () => {
 };
 
 // Individual meal
-// Please improve this if it doesn't work @Sadaf
 const getOneMeal = async (mealID) => {
   const response = await fetch(`${baseURL}lookup.php?i=${mealID}`);
   const data = await response.json();

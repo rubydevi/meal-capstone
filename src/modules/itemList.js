@@ -29,12 +29,14 @@ const populateItemList = async () => {
     cardHeader.appendChild(name);
 
     const likes = document.createElement('span');
-    likes.innerHTML = '<i class="fa-regular fa-heart"></i>'; // icon for liked: <i class="fa-solid fa-heart"></i>
+    likes.innerHTML = '<i class="fa-regular fa-heart"></i>';
     likes.addEventListener('click', async () => {
+      showLoader(likes); // Show the loader
       await addLike(appID, meal.idMeal);
       const likeCount = card.querySelector('.card-label'); // Find the like count label within the card
       if (likeCount) {
         const count = await getLikesCount(appID, meal.idMeal);
+        hideLoader(likes); // Hide the loader
         likeCount.innerHTML = `${count} likes`; // Update the like count label
       }
     });
@@ -52,6 +54,19 @@ const populateItemList = async () => {
 
     itemList.appendChild(card);
   });
+};
+
+const showLoader = (element) => {
+  const loader = document.createElement('div');
+  loader.classList.add('loader');
+  element.appendChild(loader);
+};
+
+const hideLoader = (element) => {
+  const loader = element.querySelector('.loader');
+  if (loader) {
+    element.removeChild(loader);
+  }
 };
 
 export default populateItemList;

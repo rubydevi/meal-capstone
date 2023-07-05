@@ -3,7 +3,7 @@ import {
 } from './api.js';
 import addComment from './popup.js';
 import { showLoader, hideLoader } from './loader.js';
-import { countItems } from './counter.js';
+import countItems from './counter.js';
 
 const updateHomepageCounters = () => {
   const itemsCounter = document.getElementById('items-counter');
@@ -47,7 +47,7 @@ const populateItemList = async () => {
     likeCount.classList.add('label');
     const count = await getLikesCount(appID, meal.idMeal);
     likeCount.innerHTML = `${count} likes`;
-    likeCountDiv.appendChild(likeCount);    
+    likeCountDiv.appendChild(likeCount);
     card.appendChild(likeCountDiv);
 
     // Add like function
@@ -74,7 +74,7 @@ const populateItemList = async () => {
     });
 
     itemList.appendChild(card);
-    
+
     // Update the homepage counters after each meal card is created
     updateHomepageCounters();
   });

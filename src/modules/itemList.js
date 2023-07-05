@@ -2,6 +2,7 @@ import {
   getRegionWiseMeal, getLikesCount, createApp, addLike,
 } from './api.js';
 import addComment from './popup.js';
+import { showLoader, hideLoader } from './loader.js';
 
 const populateItemList = async () => {
   // Retrieve the app ID
@@ -31,23 +32,27 @@ const populateItemList = async () => {
 
     const likes = document.createElement('span');
     likes.innerHTML = '<i class="fa-regular fa-heart"></i>';
-    likes.addEventListener('click', async () => {
-      showLoader(likes); // Show the loader
-      await addLike(appID, meal.idMeal);
-      const likeCount = card.querySelector('.card-label'); // Find the like count label within the card
-      if (likeCount) {
-        const count = await getLikesCount(appID, meal.idMeal);
-        hideLoader(likes); // Hide the loader
-        likeCount.innerHTML = `${count} likes`; // Update the like count label
-      }
-    });
     cardHeader.appendChild(likes);
 
+    const likeCountDiv = document.createElement('div');
+    likeCountDiv.classList.add('card-label');
+
     const likeCount = document.createElement('label');
-    likeCount.classList.add('card-label');
+    likeCount.classList.add('label');
     const count = await getLikesCount(appID, meal.idMeal);
     likeCount.innerHTML = `${count} likes`;
-    card.appendChild(likeCount);
+    likeCountDiv.appendChild(likeCount);
+    likes.addEventListener('click', async () => {
+      showLoader(likeCountDiv, likeCount); // Show the loader
+      await addLike(appID, meal.idMeal);
+      const countLabel = card.querySelector('.label'); // Find the like count label within the card
+      if (countLabel) {
+        const count = await getLikesCount(appID, meal.idMeal);
+        hideLoader(likeCountDiv, countLabel); // Hide the loader
+        countLabel.innerHTML = `${count} likes`; // Update the like count label
+      }
+    });
+    card.appendChild(likeCountDiv);
 
     const commentButton = document.createElement('button');
     commentButton.textContent = 'Comments';
@@ -62,19 +67,6 @@ const populateItemList = async () => {
 
     itemList.appendChild(card);
   });
-};
-
-const showLoader = (element) => {
-  const loader = document.createElement('div');
-  loader.classList.add('loader');
-  element.appendChild(loader);
-};
-
-const hideLoader = (element) => {
-  const loader = element.querySelector('.loader');
-  if (loader) {
-    element.removeChild(loader);
-  }
 };
 
 export default populateItemList;

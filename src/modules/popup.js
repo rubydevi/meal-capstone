@@ -1,9 +1,9 @@
 const baseURL = 'https://www.themealdb.com/api/json/v1/1/';
 const involvementAPIURL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi';
 
-const getComments = async (id) => {
+const getComments = async (id, appID) => {
   try {
-    const response = await fetch(`${involvementAPIURL}/comments?itemId=${id}`);
+    const response = await fetch(`${involvementAPIURL}/apps/${appID}/comments?itemId=${id}`);
     if (!response.ok) {
       throw new Error('Failed to fetch comments');
     }
@@ -23,7 +23,7 @@ const getSavedComments = (id) => {
   return savedComments ? JSON.parse(savedComments) : [];
 };
 
-const addComment = async (id, data) => {
+const addComment = async (id, data, appID) => {
   const meal = data.find((ele) => ele.idMeal === id);
   const mealContainer = document.getElementById('meal');
   mealContainer.style.display = 'flex';
@@ -76,7 +76,7 @@ const addComment = async (id, data) => {
   });
 
   const commentsList = mealElement.querySelector('#comments-list');
-  const comments = await getComments(id);
+  const comments = await getComments(id, appID);
   const savedComments = getSavedComments(id);
 
   comments.concat(savedComments).forEach((comment) => {
@@ -87,12 +87,13 @@ const addComment = async (id, data) => {
   });
 
   const submitBtn = mealElement.querySelector('#submit');
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', async () => {
     const nameInput = mealElement.querySelector('#name');
     const commentInput = mealElement.querySelector('#textArea');
-    const name = nameInput.value;
-    const comment = commentInput.value;
-    if (name.trim() !== '' && comment.trim() !== '') {
+    const name = nameInput.value.trim();
+    const comment = commentInput.value.trim();
+
+    if (name !== '' && comment !== '') {
       const newComment = `<div>${name}</div><div>${comment}</div>`;
       const div = document.createElement('div');
       div.className = 'comment-name';
@@ -105,6 +106,26 @@ const addComment = async (id, data) => {
       const savedComments = getSavedComments(id);
       const updatedComments = savedComments.concat(newComment);
       saveComments(id, updatedComments);
+
+      // Add the new comment to the API
+      try {
+        const response = await fetch(`${involvementAPIURL}/apps/${appID}/comments`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            itemId: id,
+            comment: newComment,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to add comment');
+        }
+      } catch (error) {
+        const errorMessage = document.createElement('p');
+        errorMessage.textContent = error.message || 'Error submitting score. Please try again later!';
+      }
     }
   });
 };

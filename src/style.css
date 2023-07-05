@@ -88,6 +88,12 @@ a {
   margin: 8px 0;
 }
 
+.card-label {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+}
+
 .card button {
   display: block;
   margin-top: 10px;
@@ -105,6 +111,21 @@ a {
 
 .fa-regular {
   color: #000;
+}
+
+i {
+  font-size: 1.6vw;
+  cursor: pointer;
+  transition: font-size 0.2s ease, color 0.2s ease;
+}
+
+i:hover {
+  font-size: 1.8vw;
+}
+
+i:active {
+  font-size: 1.5vw;
+  color: #f00;
 }
 
 .fa-solid {

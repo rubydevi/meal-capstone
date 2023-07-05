@@ -1,4 +1,6 @@
-import { getRegionWiseMeal, getLikesCount, createApp } from './api.js';
+import {
+  getRegionWiseMeal, getLikesCount, createApp, addLike,
+} from './api.js';
 import addComment from './popup.js';
 
 const populateItemList = async () => {
@@ -29,11 +31,19 @@ const populateItemList = async () => {
 
     const likes = document.createElement('span');
     likes.innerHTML = '<i class="fa-regular fa-heart"></i>'; // icon for liked: <i class="fa-solid fa-heart"></i>
+    likes.addEventListener('click', async () => {
+      await addLike(appID, meal.idMeal);
+      const likeCount = card.querySelector('.card-label'); // Find the like count label within the card
+      if (likeCount) {
+        const count = await getLikesCount(appID, meal.idMeal);
+        likeCount.innerHTML = `${count} likes`; // Update the like count label
+      }
+    });
     cardHeader.appendChild(likes);
 
     const likeCount = document.createElement('label');
-    const itemId = meal.idMeal;
-    const count = await getLikesCount(appID, itemId);
+    likeCount.classList.add('card-label');
+    const count = await getLikesCount(appID, meal.idMeal);
     likeCount.innerHTML = `${count} likes`;
     card.appendChild(likeCount);
 

@@ -31,6 +31,10 @@ a {
   color: #000;
 }
 
+.desktop-hide {
+  display: none;
+}
+
 #category {
   text-decoration: underline;
 }
@@ -290,6 +294,22 @@ i:active {
 }
 
 @media only screen and (max-width: 768px) {
+  ul {
+    justify-content: flex-end;
+  }
+
+  .button-menu{
+    display: flex;
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+
+  .hamburger {
+    font-size: 6vw;
+    color: #d17d00;
+  }
+
   .card-container {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -312,5 +332,13 @@ i:active {
 
   i:active {
     font-size: 2.3vw;
+  }
+
+  .desktop-show {
+    display: none;
+  }
+
+  .desktop-hide {
+    display: flex;
   }
 }

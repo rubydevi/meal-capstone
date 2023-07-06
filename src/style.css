@@ -226,6 +226,17 @@ i:active {
   gap: 60px;
 }
 
+@media screen and (max-width: 765px) {
+  .meal-list-comment {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meal {
+    padding: 12px;
+  }
+}
+
 .meal-name {
   padding: 60px;
   color: #f90;

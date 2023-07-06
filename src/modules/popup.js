@@ -1,9 +1,11 @@
+import { countComments, createApp } from './api.js';
+
 const baseURL = 'https://www.themealdb.com/api/json/v1/1/';
 const involvementAPIURL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi';
 
-const getComments = async (id, appID) => {
+const getComments = async (id) => {
   try {
-    const response = await fetch(`${involvementAPIURL}/apps/${appID}/comments?itemId=${id}`);
+    const response = await fetch(`${involvementAPIURL}/apps/1FNl9krFuHr2YmoEXWQu/comments?itemId=${id}`);
     if (!response.ok) {
       throw new Error('Failed to fetch comments');
     }
@@ -23,7 +25,7 @@ const getSavedComments = (id) => {
   return savedComments ? JSON.parse(savedComments) : [];
 };
 
-const addComment = async (id, data, appID) => {
+const addComment = async (id, data) => {
   const meal = data.find((ele) => ele.idMeal === id);
   const mealContainer = document.getElementById('meal');
   mealContainer.style.display = 'flex';
@@ -37,6 +39,7 @@ const addComment = async (id, data, appID) => {
   mealElement.innerHTML = '';
 
   const mealCategory = mealDetails.meals[0].strCategory;
+  const mealArea = mealDetails.meals[0].strArea;
 
   mealElement.innerHTML = `
     <div class="close-btn">
@@ -50,7 +53,8 @@ const addComment = async (id, data, appID) => {
         <div class="comment-meal">
           <h2 class="meal-name">${meal.strMeal}</h2>
           <h3>Category: ${mealCategory}</h3>
-          <h3>Comments</h3>
+          <h3>Area: ${mealArea}</h3>
+          <h3>Comments <span id="comment-count"></span></h3>
           <ul id="comments-list"></ul>
         </div>
       </div>
@@ -76,7 +80,9 @@ const addComment = async (id, data, appID) => {
   });
 
   const commentsList = mealElement.querySelector('#comments-list');
-  const comments = await getComments(id, appID);
+  const commentCountElement = mealElement.querySelector('#comment-count');
+
+  const comments = await getComments(id);
   const savedComments = getSavedComments(id);
 
   comments.concat(savedComments).forEach((comment) => {
@@ -85,6 +91,11 @@ const addComment = async (id, data, appID) => {
     div.innerHTML = comment;
     commentsList.appendChild(div);
   });
+
+  // Update comment count initially
+  const appID = await createApp();
+  const commentCount = await countComments(appID, id);
+  commentCountElement.textContent = `(${commentCount} comments)`;
 
   const submitBtn = mealElement.querySelector('#submit');
   submitBtn.addEventListener('click', async () => {
@@ -109,7 +120,7 @@ const addComment = async (id, data, appID) => {
 
       // Add the new comment to the API
       try {
-        const response = await fetch(`${involvementAPIURL}/apps/${appID}/comments`, {
+        const response = await fetch(`${involvementAPIURL}/apps/1FNl9krFuHr2YmoEXWQu/comments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -122,9 +133,13 @@ const addComment = async (id, data, appID) => {
         if (!response.ok) {
           throw new Error('Failed to add comment');
         }
+
+        // Update comment count after successful comment submission
+        const updatedCommentCount = await countComments(appID, id);
+        commentCountElement.textContent = `(${updatedCommentCount} comments)`;
       } catch (error) {
         const errorMessage = document.createElement('p');
-        errorMessage.textContent = error.message || 'Error submitting score. Please try again later!';
+        errorMessage.textContent = error.message || 'Error submitting comment. Please try again later!';
       }
     }
   });

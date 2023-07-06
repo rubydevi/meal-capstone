@@ -1,4 +1,5 @@
-import { countComments, createApp } from './api.js';
+import { createApp } from './api.js';
+import countComments from './comment-counter.js';
 
 const baseURL = 'https://www.themealdb.com/api/json/v1/1/';
 const involvementAPIURL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi';

@@ -60,20 +60,7 @@ const addLike = async (appId, itemId) => {
   }
 };
 
-const countComments = async (appId, itemId) => {
-  try {
-    const response = await fetch(`${involvementAPIBaseURL}/apps/${appId}/comments?itemId=${itemId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch comments');
-    }
-    const data = await response.json();
-    return data.length;
-  } catch (error) {
-    return 0;
-  }
-};
-
 // Export the base URL for the meal API
 export {
-  baseURL, createApp, getLikesCount, getRegionWiseMeal, getOneMeal, addLike, countComments,
+  baseURL, createApp, getLikesCount, getRegionWiseMeal, getOneMeal, addLike,
 };

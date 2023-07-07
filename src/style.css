@@ -1,0 +1,411 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'lato', sans-serif;
+}
+
+h1 {
+  color: rgb(157, 73, 236);
+  margin: 100px  600px;
+}
+
+nav {
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+#category {
+  text-decoration: underline;
+}
+
+.main-title {
+  margin: 2% 0;
+  display: flex;
+  color: #f90;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#home {
+  padding: 0 3%;
+}
+
+/* CSS code for styling the card */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  flex-direction: column;
+}
+
+.card:hover {
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+}
+
+.card img {
+  width: 100%;
+  max-height: 60%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card h3 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.card p {
+  margin: 8px 0;
+}
+
+.card-label {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+}
+
+.card button {
+  display: block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #f90;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-elements button {
+  padding: 2%;
+  background-color: #f90;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #e98c00;
+}
+
+.loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  border-top-color: #333;
+  animation: spin 0.6s infinite linear;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fa-regular {
+  color: #000;
+}
+
+i {
+  font-size: 1.6vw;
+  cursor: pointer;
+  transition: font-size 0.2s ease, color 0.2s ease;
+}
+
+i:hover {
+  font-size: 1.8vw;
+}
+
+i:active {
+  font-size: 1.5vw;
+  color: #f00;
+}
+
+.fa-solid {
+  color: #f00;
+}
+
+.d-none {
+  display: none;
+}
+
+.header,
+.footer {
+  padding: 24px;
+  border: 2px solid  rgb(255, 153, 0);
+  text-align: center;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.bio {
+  color: black;
+  box-shadow: 0 2px 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.bio-part {
+  color: black;
+  box-shadow: 0 2px 14px;
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+/* add style for popup */
+
+.meal {
+  background-color: #161b4aa7;
+  overflow-y: scroll;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  padding-left: 20px;
+  position: fixed;
+  display: none;
+}
+
+.meal-list {
+  background-color: rgb(236, 212, 177);
+  width: 760px;
+  height: 600px;
+  border-radius: 8px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.close-btn {
+  text-align: right;
+  margin: 12px;
+}
+
+.recipe-close-btn {
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  opacity: 0.9;
+}
+
+.meal-list-comment {
+  display: flex;
+  gap: 60px;
+}
+
+.meal-name {
+  padding: 60px;
+  color: #f90;
+  border: 2px solid  rgb(255, 153, 0);
+  border-radius: 10px;
+}
+
+.comment-meal h3 {
+  color: #f90;
+  padding: 20px;
+}
+
+#comments-list {
+  color: rgb(12, 12, 11);
+  font-size: 20px;
+  background-color: rgb(245, 232, 168);
+  border: 2px solid #f90;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+
+.meal-image {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.comment-part {
+  padding-top: 20px;
+  color: #f90;
+}
+
+.name {
+  border-radius: 12px;
+  padding: 8px;
+  width: 300px;
+}
+
+#textArea {
+  border-radius: 12px;
+  padding: 8px;
+}
+
+#submit {
+  border-radius: 12px;
+  padding: 8px;
+  margin: 12px;
+  width: 300px;
+  color: #f90;
+  font-size: 20px;
+}
+
+.comment-name {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: #f90;
+  row-gap: 20px;
+  width: 100%;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-title {
+  padding: 2%;
+  border-bottom: 2px solid orange;
+  width: 100%;
+  margin-bottom: 1%;
+}
+
+.modal-image {
+  width: 53%;
+  border-radius: 50%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.commentSection {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.comments-title {
+  padding: 2%;
+  border-radius: 6px;
+  color: #ffa500;
+  display: flex;
+}
+
+#commentsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ffa500;
+  padding: 2%;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.form-elements input {
+  padding: 4%;
+  border: 1px solid orange;
+  border-radius: 2px;
+}
+
+@media screen and (max-width: 765px) {
+  .meal-list-comment {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meal {
+    padding: 12px;
+  }
+
+  .commentSection {
+    display: flex;
+    flex-direction: column;
+  }
+}

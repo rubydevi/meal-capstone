@@ -12,6 +12,12 @@ const createApp = async () => {
   return '1FNl9krFuHr2YmoEXWQu';
 };
 
+const getOneMeal = async (mealID) => {
+  const response = await fetch(`${baseURL}lookup.php?i=${mealID}`);
+  const data = await response.json();
+  return data.meals;
+};
+
 const getLikesCount = async (appId, itemId) => {
   try {
     const response = await fetch(`${involvementAPIBaseURL}apps/${appId}/likes`);
@@ -40,7 +46,6 @@ export const submitComment = async (appID, itemId, name, comment) => {
     body: JSON.stringify({
       item_id: itemId,
       username: name,
-
       comment,
     }),
   });
@@ -77,14 +82,21 @@ export const getComments = async (appID, itemId) => {
 const getRegionWiseMeal = async () => {
   const response = await fetch(`${baseURL}filter.php?a=Indian`);
   const data = await response.json();
-  return data.meals;
-};
+  const { meals } = data;
 
-// Individual meal
-const getOneMeal = async (mealID) => {
-  const response = await fetch(`${baseURL}lookup.php?i=${mealID}`);
-  const data = await response.json();
-  return data.meals;
+  // Fetch additional details for each meal
+  const mealsWithDetails = await Promise.all(
+    meals.map(async (meal) => {
+      const detailedMeal = await getOneMeal(meal.idMeal);
+      return {
+        ...meal,
+        strCategory: detailedMeal[0].strCategory,
+        strArea: detailedMeal[0].strArea,
+      };
+    }),
+  );
+
+  return mealsWithDetails;
 };
 
 const addLike = async (appId, itemId) => {

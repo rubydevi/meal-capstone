@@ -25,14 +25,14 @@ const addComment = async (id, data) => {
     </div>
     <div class="meal-image-comment">
       <div class="meal-list-comment">
-        <img src="${meal.strMealThumb}" alt="" class="meal-image">
-        <div class="comment-meal">
-          <h2 class="meal-name">${meal.strMeal}</h2>
-          <h3 class="meal-name">Category: ${mealCategory}</h3>
-          <h3 class="meal-name">Area: ${mealArea}</h3>
-          <h3>Comments</h3>
-          <ul id="comments-list"></ul>
-        </div>
+        // <img src="${meal.strMealThumb}" alt="" class="meal-image">
+        // <div class="comment-meal">
+        //   <h2 class="meal-name">${meal.strMeal}</h2>
+        //   <h3 class="meal-name">Category: ${mealCategory}</h3>
+        //   <h3 class="meal-name">Area: ${mealArea}</h3>
+        //   <h3>Comments</h3>
+        //   <ul id="comments-list"></ul>
+        // </div>
       </div>
       <h3 class="comment-part">Add Comments</h3>
       <div class="form">

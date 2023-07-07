@@ -1,7 +1,7 @@
 import {
   getRegionWiseMeal, getLikesCount, createApp, addLike, submitComment, getComments,
 } from './api.js';
-// import addComment from './popup.js';
+
 import { showLoader, hideLoader } from './loader.js';
 import countItems from './counter.js';
 
@@ -101,7 +101,8 @@ const populateItemList = async () => {
         modalItemDetails.innerHTML = `
           <h3 class="modal-title">${meal.strMeal}</h3>
           <img class="modal-image" src="${meal.strMealThumb}" alt="${meal.strMeal}" />
-
+          <p>Category: ${meal.strCategory}</p>
+          <p>Area: ${meal.strArea}</p>
           <h3 class="comments-title">Comments</h3>
           <div class="commentSection">
             <div id="commentsContainer">
@@ -159,11 +160,11 @@ const populateItemList = async () => {
 };
 
 // Close the modal when the close button or outside modal area is clicked
-window.onclick = (event) => {
+window.addEventListener('click', (event) => {
   const modal = document.getElementById('myModal');
-  if (event.target === modal) {
+  if (event.target === modal || event.target.classList.contains('close')) {
     modal.style.display = 'none';
   }
-};
+});
 
 export default populateItemList;

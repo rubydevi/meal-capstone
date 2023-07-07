@@ -51,6 +51,12 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## 🎥 Video Walkthrough <a name="#video"></a>
+
+- [Live to video](https://drive.google.com/file/d/1dQVCTauo3_6ZZJu6iuvJW4gw-g6oNmQT/view?usp=sharing)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- GETTING STARTED -->
 
 ## 💻 Getting Started <a name="getting-started"></a>

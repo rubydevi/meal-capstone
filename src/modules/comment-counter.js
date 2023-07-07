@@ -1,8 +1,6 @@
-import { getComments } from './api.js';
-
-const displayCommentCount = async (appID, mealID) => {
-  const comments = await getComments(appID, mealID);
-  const commentCount = comments.length;
+const displayCommentCount = async () => {
+  const commentElements = document.querySelectorAll('.comment');
+  const commentCount = commentElements.length;
   return commentCount;
 };
 

@@ -1,37 +1,24 @@
 import displayCommentCount from '../modules/comment-counter.js';
-import { getComments } from '../modules/api.js';
-
-jest.mock('../modules/api.js', () => ({
-  getComments: jest.fn(),
-}));
 
 describe('displayCommentCount', () => {
-  const appID = '1FNl9krFuHr2YmoEXWQu';
-  const mealID = '';
-
-  it('should return the correct comment count', async () => {
-    const comments = [
-      { username: 'User1', comment: 'Comment 1', date: '2023-07-01' },
-      { username: 'User2', comment: 'Comment 2', date: '2023-07-02' },
-      { username: 'User3', comment: 'Comment 3', date: '2023-07-03' },
-    ];
-
-    getComments.mockResolvedValue(comments);
-
-    const commentCount = await displayCommentCount(appID, mealID);
-
-    expect(getComments).toHaveBeenCalledWith(appID, mealID);
-    expect(commentCount).toBe(comments.length);
+  beforeEach(() => {
+    // Set up the DOM elements for testing
+    document.body.innerHTML = `
+      <div class="comment"></div>
+      <div class="comment"></div>
+      <div class="comment"></div>
+    `;
   });
-
-  it('should return 0 when there are no comments', async () => {
-    const comments = [];
-
-    getComments.mockResolvedValue(comments);
-
-    const commentCount = await displayCommentCount(appID, mealID);
-
-    expect(getComments).toHaveBeenCalledWith(appID, mealID);
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+  it('should return the correct comment count based on the displayed comments', async () => {
+    const commentCount = await displayCommentCount();
+    expect(commentCount).toBe(3);
+  });
+  it('should return 0 when no comments are displayed', async () => {
+    document.body.innerHTML = '';
+    const commentCount = await displayCommentCount();
     expect(commentCount).toBe(0);
   });
 });

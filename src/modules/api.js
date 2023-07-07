@@ -12,6 +12,12 @@ const createApp = async () => {
   return '1FNl9krFuHr2YmoEXWQu';
 };
 
+const getOneMeal = async (mealID) => {
+  const response = await fetch(`${baseURL}lookup.php?i=${mealID}`);
+  const data = await response.json();
+  return data.meals;
+};
+
 const getLikesCount = async (appId, itemId) => {
   try {
     const response = await fetch(`${involvementAPIBaseURL}apps/${appId}/likes`);
@@ -31,18 +37,66 @@ const getLikesCount = async (appId, itemId) => {
   }
 };
 
+export const submitComment = async (appID, itemId, name, comment) => {
+  const response = await fetch(`${involvementAPIBaseURL}apps/${appID}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      item_id: itemId,
+      username: name,
+      comment,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to submit comment');
+  }
+};
+
+export const getComments = async (appID, itemId) => {
+  const response = await fetch(`${involvementAPIBaseURL}apps/${appID}/comments?item_id=${itemId}`, {
+    method: 'GET',
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+
+    // Add the comment date to each comment object
+    const commentsWithDate = data.map((comment) => {
+      const date = new Date(comment.creation_date).toLocaleDateString();
+      return {
+        ...comment,
+        date,
+      };
+    });
+
+    return commentsWithDate;
+  }
+
+  return [];
+};
+
 // List of meal
 const getRegionWiseMeal = async () => {
   const response = await fetch(`${baseURL}filter.php?a=Indian`);
   const data = await response.json();
-  return data.meals;
-};
+  const { meals } = data;
 
-// Individual meal
-const getOneMeal = async (mealID) => {
-  const response = await fetch(`${baseURL}lookup.php?i=${mealID}`);
-  const data = await response.json();
-  return data.meals;
+  // Fetch additional details for each meal
+  const mealsWithDetails = await Promise.all(
+    meals.map(async (meal) => {
+      const detailedMeal = await getOneMeal(meal.idMeal);
+      return {
+        ...meal,
+        strCategory: detailedMeal[0].strCategory,
+        strArea: detailedMeal[0].strArea,
+      };
+    }),
+  );
+
+  return mealsWithDetails;
 };
 
 const addLike = async (appId, itemId) => {

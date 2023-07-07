@@ -1,27 +1,4 @@
 const baseURL = 'https://www.themealdb.com/api/json/v1/1/';
-const involvementAPIURL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi';
-
-const getComments = async (id) => {
-  try {
-    const response = await fetch(`${involvementAPIURL}/comments?itemId=${id}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch comments');
-    }
-    const data = await response.json();
-    return data.map((comment) => comment.comment);
-  } catch (error) {
-    return [];
-  }
-};
-
-const saveComments = (id, comments) => {
-  localStorage.setItem(`comments_${id}`, JSON.stringify(comments));
-};
-
-const getSavedComments = (id) => {
-  const savedComments = localStorage.getItem(`comments_${id}`);
-  return savedComments ? JSON.parse(savedComments) : [];
-};
 
 const addComment = async (id, data) => {
   const meal = data.find((ele) => ele.idMeal === id);
@@ -31,12 +8,14 @@ const addComment = async (id, data) => {
   // Fetch meal details from the API using the id
   const response = await fetch(`${baseURL}lookup.php?i=${id}`);
   const mealDetails = await response.json();
+  const mealData = mealDetails.meals[0];
 
   const mealElement = document.createElement('div');
   mealElement.className = 'meal-list';
   mealElement.innerHTML = '';
 
-  const mealCategory = mealDetails.meals[0].strCategory;
+  const mealCategory = mealData.strCategory;
+  const mealArea = mealData.strArea;
 
   mealElement.innerHTML = `
     <div class="close-btn">
@@ -46,13 +25,14 @@ const addComment = async (id, data) => {
     </div>
     <div class="meal-image-comment">
       <div class="meal-list-comment">
-        <img src="${meal.strMealThumb}" alt="" class="meal-image">
-        <div class="comment-meal">
-          <h2 class="meal-name">${meal.strMeal}</h2>
-          <h3>Category: ${mealCategory}</h3>
-          <h3>Comments</h3>
-          <ul id="comments-list"></ul>
-        </div>
+         <img src="${meal.strMealThumb}" alt="" class="meal-image">
+         <div class="comment-meal">
+           <h2 class="meal-name">${meal.strMeal}</h2>
+           <h3 class="meal-name">Category: ${mealCategory}</h3>
+           <h3 class="meal-name">Area: ${mealArea}</h3>
+           <h3>Comments</h3>
+           <ul id="comments-list"></ul>
+         </div>
       </div>
       <h3 class="comment-part">Add Comments</h3>
       <div class="form">
@@ -73,39 +53,6 @@ const addComment = async (id, data) => {
   closeBtn.addEventListener('click', () => {
     mealContainer.style.display = 'none';
     mealContainer.removeChild(mealElement);
-  });
-
-  const commentsList = mealElement.querySelector('#comments-list');
-  const comments = await getComments(id);
-  const savedComments = getSavedComments(id);
-
-  comments.concat(savedComments).forEach((comment) => {
-    const div = document.createElement('div');
-    div.className = 'comment-name';
-    div.innerHTML = comment;
-    commentsList.appendChild(div);
-  });
-
-  const submitBtn = mealElement.querySelector('#submit');
-  submitBtn.addEventListener('click', () => {
-    const nameInput = mealElement.querySelector('#name');
-    const commentInput = mealElement.querySelector('#textArea');
-    const name = nameInput.value;
-    const comment = commentInput.value;
-    if (name.trim() !== '' && comment.trim() !== '') {
-      const newComment = `<div>${name}</div><div>${comment}</div>`;
-      const div = document.createElement('div');
-      div.className = 'comment-name';
-      div.innerHTML = newComment;
-      commentsList.appendChild(div);
-      nameInput.value = '';
-      commentInput.value = '';
-
-      // Save the new comment to localStorage
-      const savedComments = getSavedComments(id);
-      const updatedComments = savedComments.concat(newComment);
-      saveComments(id, updatedComments);
-    }
   });
 };
 

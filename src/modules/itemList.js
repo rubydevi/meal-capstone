@@ -1,18 +1,40 @@
 import {
-  getRegionWiseMeal, getLikesCount, createApp, addLike,
+  getRegionWiseMeal, getLikesCount, createApp, addLike, submitComment, getComments,
 } from './api.js';
-import addComment from './popup.js';
+
 import { showLoader, hideLoader } from './loader.js';
 import countItems from './counter.js';
+import displayCommentCount from './comment-counter.js';
+
+// Retrieve the app ID
+const appID = await createApp();
 
 const updateHomepageCounters = () => {
   const itemsCounter = document.getElementById('items-counter');
   itemsCounter.textContent = `( ${countItems()} )`;
 };
 
+const displayComments = (comments) => {
+  const commentsContainer = document.getElementById('commentsContainer');
+  commentsContainer.innerHTML = '';
+
+  if (comments.length === 0) {
+    commentsContainer.innerHTML = '<p>No comments available.</p>';
+  } else {
+    comments.forEach((comment) => {
+      const commentElement = `
+        <div class="comment">
+          <h4>${comment.username}</h4>
+          <p>:</p>
+          <p> "${comment.comment}"</p>
+          <p> ${comment.date}</p>
+          </div>`;
+      commentsContainer.innerHTML += commentElement;
+    });
+  }
+};
+
 const populateItemList = async () => {
-  // Retrieve the app ID
-  const appID = await createApp();
   const meals = await getRegionWiseMeal();
   const itemList = document.getElementById('item-list');
 
@@ -68,10 +90,79 @@ const populateItemList = async () => {
     commentButton.setAttribute('data-btn', `${meal.idMeal}`);
     card.appendChild(commentButton);
 
-    commentButton.addEventListener('click', (e) => {
-      const id = e.target.dataset.btn;
-      addComment(id, meals);
+    const openModal = async (meal) => {
+      const modal = document.getElementById('myModal');
+      const modalItemDetails = document.getElementById('modal-item-details');
+
+      // Retrieve additional item details (e.g., comments) based on the meal ID
+      try {
+        const comments = await getComments(appID, meal.idMeal);
+
+        // Populate the modal with the target item's information and comments
+        modalItemDetails.innerHTML = `
+          <h3 class="modal-title">${meal.strMeal}</h3>
+          <img class="modal-image" src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+          <p>Category: ${meal.strCategory}</p>
+          <p>Area: ${meal.strArea}</p>
+          <h3 class="comments-title">Comments</h3>
+          <div class="commentSection">
+            <div id="commentsContainer">
+            </div>
+            <form class="form-elements">
+              <input type="text" id="nameInput" placeholder="Your Name" required>
+              <input type="text" id="commentInput" placeholder="Your Comment" required>
+              <button type="submit" id="submitCommentButton">Submit Comment</button>
+            </form>
+          </div>
+        `;
+
+        // Display existing comments
+        displayComments(comments);
+      } catch (error) {
+        console.error('Failed to retrieve comments:', error);
+      }
+
+      const updateCommentCount = async () => {
+        const commentCount = await displayCommentCount(appID, meal.idMeal);
+        const commentsTitle = document.querySelector('.comments-title');
+        if (commentsTitle) {
+          commentsTitle.textContent = `Comments (${commentCount})`;
+        }
+      };
+
+      const submitButton = document.getElementById('submitCommentButton');
+      submitButton.addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        const nameInput = document.getElementById('nameInput');
+        const commentInput = document.getElementById('commentInput');
+        const name = nameInput.value;
+        const comment = commentInput.value;
+
+        try {
+          // Submit the comment
+          await submitComment(appID, meal.idMeal, name, comment);
+          // Retrieve updated comments and display them
+          const updatedComments = await getComments(appID, meal.idMeal);
+          displayComments(updatedComments);
+          // Clear input fields
+          nameInput.value = '';
+          commentInput.value = '';
+        } catch (error) {
+          console.error('Failed to submit comment:', error);
+        }
+        await updateCommentCount();
+      });
+
+      modal.style.display = 'block';
+      // Display comment count
+      await updateCommentCount();
+    };
+
+    commentButton.addEventListener('click', () => {
+      openModal(meal);
     });
+    card.appendChild(commentButton);
 
     itemList.appendChild(card);
 
@@ -79,5 +170,13 @@ const populateItemList = async () => {
     updateHomepageCounters();
   });
 };
+
+// Close the modal when the close button or outside modal area is clicked
+window.addEventListener('click', (event) => {
+  const modal = document.getElementById('myModal');
+  if (event.target === modal || event.target.classList.contains('close')) {
+    modal.style.display = 'none';
+  }
+});
 
 export default populateItemList;

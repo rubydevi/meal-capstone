@@ -31,6 +31,48 @@ const getLikesCount = async (appId, itemId) => {
   }
 };
 
+export const submitComment = async (appID, itemId, name, comment) => {
+  const response = await fetch(`${involvementAPIBaseURL}apps/${appID}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      item_id: itemId,
+      username: name,
+
+      comment,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to submit comment');
+  }
+};
+
+export const getComments = async (appID, itemId) => {
+  const response = await fetch(`${involvementAPIBaseURL}apps/${appID}/comments?item_id=${itemId}`, {
+    method: 'GET',
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+
+    // Add the comment date to each comment object
+    const commentsWithDate = data.map((comment) => {
+      const date = new Date(comment.creation_date).toLocaleDateString();
+      return {
+        ...comment,
+        date,
+      };
+    });
+
+    return commentsWithDate;
+  }
+
+  return [];
+};
+
 // List of meal
 const getRegionWiseMeal = async () => {
   const response = await fetch(`${baseURL}filter.php?a=Indian`);

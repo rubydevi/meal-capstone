@@ -19,9 +19,9 @@
 - [🙏 Acknowledgements](#acknowledgements)
 - [📝 License](#license)
 
-# 📖 leaderboard <a name="about-project"></a>
+# 📖 Meal Capstone <a name="about-project"></a>
 
-**leaderboard** The leaderboard website displays scores submitted by different players. It also allows you to submit your score. All data is preserved thanks to the external [Leaderboard API service.](https://www.notion.so/Leaderboard-API-service-24c0c3c116974ac49488d4eb0267ade3)
+**Meal Capstone** This is a project about showcasing authentic Indian food from all over the country using [the meal db API](https://www.themealdb.com/api.php), where users can leave likes and comments on their favorite dishes. We made this possible by utilizing the [Involvement API](https://microverse.notion.site/Involvement-API-869e60b5ad104603aa6db59e08150270).
 
 ### Tech Stack <a name="tech-stack"></a>
 

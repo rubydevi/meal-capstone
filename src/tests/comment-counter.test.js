@@ -1,7 +1,7 @@
-import displayCommentCount from './comment-counter.js';
-import { getComments } from './api.js';
+import displayCommentCount from '../modules/comment-counter.js';
+import { getComments } from '../modules/api.js';
 
-jest.mock('./api.js', () => ({
+jest.mock('../modules/api.js', () => ({
   getComments: jest.fn(),
 }));
 

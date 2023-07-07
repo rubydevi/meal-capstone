@@ -4,6 +4,7 @@ import {
 
 import { showLoader, hideLoader } from './loader.js';
 import countItems from './counter.js';
+import displayCommentCount from './comment-counter.js';
 
 // Retrieve the app ID
 const appID = await createApp();
@@ -121,6 +122,14 @@ const populateItemList = async () => {
         console.error('Failed to retrieve comments:', error);
       }
 
+      const updateCommentCount = async () => {
+        const commentCount = await displayCommentCount(appID, meal.idMeal);
+        const commentsTitle = document.querySelector('.comments-title');
+        if (commentsTitle) {
+          commentsTitle.textContent = `Comments (${commentCount})`;
+        }
+      };
+
       const submitButton = document.getElementById('submitCommentButton');
       submitButton.addEventListener('click', async (event) => {
         event.preventDefault(); // Prevent form submission and page reload
@@ -142,9 +151,12 @@ const populateItemList = async () => {
         } catch (error) {
           console.error('Failed to submit comment:', error);
         }
+        await updateCommentCount();
       });
 
       modal.style.display = 'block';
+      // Display comment count
+      await updateCommentCount();
     };
 
     commentButton.addEventListener('click', () => {
